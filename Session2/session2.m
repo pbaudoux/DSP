@@ -102,22 +102,195 @@ title('Non-ideal case - 4096');
 % A : The length of the DFT allows to have more frequency samples but does
 % not increase the precision. In the non ideal case, the peaks are still
 % thick.
+% The ideal, 4096 points is false
 
 % Effect of window length
 
-x = [y_padd_id, y_padd_ni];
-windows = [(window(@rectwin,256))'; (window(@rectwin,512))'; (window(@rectwin,1024))';...
-           (window(@hann, 256))'; (window(@hann, 512))'; (window(@hann, 1024))',...
-           (window(@flattopwin, 256))'; (window(@flattopwin, 512))'; (window(@flattopwin, 1024))'];
-titles = []
-       
-for i=1:2
-    figure;
-    for u=1:length(windows)
-        subplot(3,3,u)
-        plot((-1/2:1/nfft2:1/2-1/nfft2), abs(fftshift(fft(x(i).*windows(u,:),nfft2))));
-    end  
-end
+% 
+% windows = [(window(@rectwin,256))'; (window(@rectwin,512))'; (window(@rectwin,1024))';...
+%            (window(@hann, 256))'; (window(@hann, 512))'; (window(@hann, 1024))',...
+%            (window(@flattopwin, 256))'; (window(@flattopwin, 512))'; (window(@flattopwin, 1024))'];
+% titles = []
+%        
+% for i=1:2
+%     figure;
+%     for u=1:length(windows)
+%         subplot(3,3,u)
+%         
+%         plot((-1/2:1/nfft2:1/2-1/nfft2), abs(fftshift(fft(x(i).*windows(u,:),nfft2))));
+%     end  
+% end
+
+close all;
+figure
+win = window(@rectwin,256);
+y = yid(1:length(win));
+y_win = y.*win;
+y_padded = padd(y_win, nfft2);
+subplot(3,3,1)
+plot((-1/2:1/nfft1:1/2-1/nfft1), abs(fftshift(fft(y_padded,nfft1))));
+title('Ideal case - 256 rectangluar window');
+
+win = window(@rectwin,512);
+y = yid(1:length(win));
+y_win = y.*win;
+y_padded = padd(y_win, nfft2);
+subplot(3,3,2)
+plot((-1/2:1/nfft1:1/2-1/nfft1), abs(fftshift(fft(y_padded,nfft1))));
+title('Ideal case - 512 rectangluar window');
+
+win = window(@rectwin,1024);
+y = yid(1:length(win));
+y_win = y.*win;
+y_padded = padd(y_win, nfft2);
+subplot(3,3,3)
+plot((-1/2:1/nfft1:1/2-1/nfft1), abs(fftshift(fft(y_padded,nfft1))));
+title('Ideal case - 1024 rectangluar window');
+
+win = window(@hann,256);
+y = yid(1:length(win));
+y_win = y.*win;
+y_padded = padd(y_win, nfft2);
+subplot(3,3,4)
+plot((-1/2:1/nfft2:1/2-1/nfft2), abs(fftshift(fft(y_padded,nfft2))));
+title('Ideal case - 256 hann window');
+
+win = window(@hann,512);
+y = yid(1:length(win));
+y_win = y.*win;
+y_padded = padd(y_win, nfft2);
+subplot(3,3,5)
+plot((-1/2:1/nfft2:1/2-1/nfft2), abs(fftshift(fft(y_padded,nfft2))));
+title('Ideal case - 512 hann window');
+
+win = window(@hann,1024);
+y = yid(1:length(win));
+y_win = y.*win;
+y_padded = padd(y_win, nfft2);
+subplot(3,3,6)
+plot((-1/2:1/nfft2:1/2-1/nfft2), abs(fftshift(fft(y_padded,nfft2))));
+title('Ideal case - 1024 hann window');
+
+win = window(@flattopwin,256);
+y = yid(1:length(win));
+y_win = y.*win;
+y_padded = padd(y_win, nfft2);
+subplot(3,3,7)
+plot((-1/2:1/nfft2:1/2-1/nfft2), abs(fftshift(fft(y_padded,nfft2))));
+title('Ideal case - 256 flat top window');
+
+win = window(@flattopwin,512);
+y = yid(1:length(win));
+y_win = y.*win;
+y_padded = padd(y_win, nfft2);
+subplot(3,3,8)
+plot((-1/2:1/nfft2:1/2-1/nfft2), abs(fftshift(fft(y_padded,nfft2))));
+title('Ideal case - 512 flat top window');
+
+win = window(@flattopwin,1024);
+y = yid(1:length(win));
+y_win = y.*win;
+y_padded = padd(y_win, nfft2);
+subplot(3,3,9)
+plot((-1/2:1/nfft2:1/2-1/nfft2), abs(fftshift(fft(y_padded,nfft2))));
+title('Ideal case - 1024 flat top window');
+
+figure
+win = window(@rectwin,256);
+y = yni(1:length(win));
+y_win = y.*win;
+y_padded = padd(y_win, nfft2);
+subplot(3,3,1)
+plot((-1/2:1/nfft2:1/2-1/nfft2), abs(fftshift(fft(y_padded,nfft2))));
+title('Non-ideal case - 256 rectangluar window');
+
+win = window(@rectwin,512);
+y = yni(1:length(win));
+y_win = y.*win;
+y_padded = padd(y_win, nfft2);
+subplot(3,3,2)
+plot((-1/2:1/nfft2:1/2-1/nfft2), abs(fftshift(fft(y_padded,nfft2))));
+title('Non-ideal case - 512 rectangluar window');
+
+win = window(@rectwin,1024);
+y = yni(1:length(win));
+y_win = y.*win;
+y_padded = padd(y_win, nfft2);
+subplot(3,3,3)
+plot((-1/2:1/nfft2:1/2-1/nfft2), abs(fftshift(fft(y_padded,nfft2))));
+title('Non-ideal case - 1024 rectangluar window');
+
+win = window(@hann,256);
+y = yni(1:length(win));
+y_win = y.*win;
+y_padded = padd(y_win, nfft2);
+subplot(3,3,4)
+plot((-1/2:1/nfft2:1/2-1/nfft2), abs(fftshift(fft(y_padded,nfft2))));
+title('Non-ideal case - 256 hann window');
+
+win = window(@hann,512);
+y = yni(1:length(win));
+y_win = y.*win;
+y_padded = padd(y_win, nfft2);
+subplot(3,3,5)
+plot((-1/2:1/nfft2:1/2-1/nfft2), abs(fftshift(fft(y_padded,nfft2))));
+title('Non-ideal case - 512 hann window');
+
+win = window(@hann,1024);
+y = yni(1:length(win));
+y_win = y.*win;
+y_padded = padd(y_win, nfft2);
+subplot(3,3,6)
+plot((-1/2:1/nfft2:1/2-1/nfft2), abs(fftshift(fft(y_padded,nfft2))));
+title('Non-ideal case - 1024 hann window');
+
+win = window(@flattopwin,256);
+y = yni(1:length(win));
+y_win = y.*win;
+y_padded = padd(y_win, nfft2);
+subplot(3,3,7)
+plot((-1/2:1/nfft2:1/2-1/nfft2), abs(fftshift(fft(y_padded,nfft2))));
+title('Non-ideal case - 256 flat top window');
+
+win = window(@flattopwin,512);
+y = yni(1:length(win));
+y_win = y.*win;
+y_padded = padd(y_win, nfft2);
+subplot(3,3,8)
+plot((-1/2:1/nfft2:1/2-1/nfft2), abs(fftshift(fft(y_padded,nfft2))));
+title('Non-ideal case - 512 flat top window');
+
+win = window(@flattopwin,1024);
+y = yni(1:length(win));
+y_win = y.*win;
+y_padded = padd(y_win, nfft2);
+subplot(3,3,9)
+plot((-1/2:1/nfft2:1/2-1/nfft2), abs(fftshift(fft(y_padded,nfft2))));
+title('Non-ideal case - 1024 flat top window');
+
+% A : it appears that the length of the window, regardless of the ideality
+% or of the type of window, allows to increase the precision of the DFT.
+
+
+%%
+% Exercise 2.2
+
+clsoe all;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
