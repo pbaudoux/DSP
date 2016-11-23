@@ -275,10 +275,23 @@ title('Non-ideal case - 1024 flat top window');
 %%
 % Exercise 2.2
 
-clsoe all;
+close all;
+[x, fs] = audioread('oef2mul.wav');
 
+win = window(@hann,256);
+xp = x(1:length(win));
+x_win = xp.*win;
+x_padded = padd(x_win, nfft2);
 
+figure;
+semilogy((-1/2:1/nfft2:1/2-1/nfft2), abs(fftshift(fft(x_padded,nfft2))));
+title('Frequency content');
 
+% A : the first peak is located at (0.1282;40.98) and the second at (0.1863;0.03121)
+
+disp(['The first frequency content is at ', num2str(0.1282*fs), ' Hz']);
+disp(['The second frequency content is at ', num2str(0.1863*fs), ' Hz and is ',...
+    num2str(db2mag(40.98)/db2mag(0.03121)), ' times less strong']);
 
 
 
