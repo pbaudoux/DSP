@@ -109,14 +109,10 @@ x = [y_padd_id, y_padd_ni];
 windows = [(window(@rectwin,256))'; (window(@rectwin,512))'; (window(@rectwin,1024))';...
            (window(@hann, 256))'; (window(@hann, 512))'; (window(@hann, 1024))',...
            (window(@flattopwin, 256))'; (window(@flattopwin, 512))'; (window(@flattopwin, 1024))'];
-titles = []
        
 for i=1:2
     figure;
-    for u=1:length(windows)
-        subplot(3,3,u)
-        plot((-1/2:1/nfft2:1/2-1/nfft2), abs(fftshift(fft(x(i).*windows(u,:),nfft2))));
-    end  
+    
 end
 
 
