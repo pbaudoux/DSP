@@ -48,21 +48,60 @@ N = 0.1/Ts;
 noot = [noot1, noot2, noot3];
 
 
-% figure;
-% for i = 1:3
-% 	subplot(3,1,i)
-% 	spectrogram(noot(:,i), N, round(N/2), [], Fs, 'yaxis');
-% 	note = notes(110,Fs/2);
-% 	set(gca,'YTick',note.freq)
-% 	set(gca,'YTickLabel',note.name)
-% 	title(['Noot ', num2str(i)])
-% end
+figure;
+for i = 1:3
+	subplot(3,1,i)
+	x = resample(noot(:,i),p,q);
+	spectrogram(x, N, round(N/2), [], Fs*ratio, 'yaxis');
+	%note = notes(110,Fs/2);
+	%set(gca,'YTick',note.freq)
+	%set(gca,'YTickLabel',note.name)
+	title(['Noot ', num2str(i)])
+end
+
+% We cannot make the YTicks work, so the notes will be identified "manually" :
+% noot3: 350 Hz -> F
+% noot2: 260 Hz -> C
+% noot1: 440 Hz -> A 
+
+%% Exercise 3.2.1 : computation of random filter impulse response
+close all;
+
+coeff = rand(10,1);
+impulse = [1 0 0 0 0 0 0 0 0 0];
+h = conv(coeff, impulse);
+figure;
+stem(h);
+
+%% Exercise 3.2.2 : design of FIR filters
+close all;
+
+% The original sampling frequency is 44.1 kHz. Downsampled 5 times, it gives
+% fs = 8820 Hz.
+% The maximal frequency at which the signal can have power is fs/2 = 4410 Hz.
+
+% The filter is designed with window design method since they offer great
+% performance even if they are suboptimal, which is not a problem here.
+
+% multiple options have been tested with fdatool
+f = fir1(101,0.1,'low',kaiser(102,1));
+figure;
+% Plot phase and amplitude
+freqz(f,1)
+
+step = ones(1, length(f));
+imp = [1 zeros(1,length(f)-1)];
 
 figure;
-spectrogram(noot1, N, round(N/2), [], Fs, 'yaxis');
-note = notes(170,Fs/2);
-set(gca,'YTick',note.freq)
-set(gca,'YTickLabel',repmat(note.name,1,7))
-title('Noot 1')
+subplot(2,1,1)
+stem(conv(f,step));
+title('Step response of the filter');
+subplot(2,1,2)
+stem(conv(f,imp));
+title('Impulse response of the filter');
 
-length(note.freq)/length(note.name)
+y_conv = conv(y_mono,conv(f,imp));
+down_y = y_conv(1:5:end);
+figure
+stem(down_y)
+title('Downspampled audio signal')
