@@ -103,6 +103,23 @@ output = filter(b_i,a_i,start);
 plot(output)
 title('Output of the IIR filter');
     
+%% Exercise 5.3.1 : Notch filter
+close all;
+
+w0 = 2*pi/5;
+a = 0.9;
+
+zer = [ exp(sqrt(-1)*w0), -exp(sqrt(-1)*w0) ];  % zeros of TF
+pol = [ a*exp(sqrt(-1)*w0), -a*exp(sqrt(-1)*w0) ];  % zeros of TF
+
+b = poly(zer);
+a = poly(pol);
+
+freqz(b,a);
+
+%% Exercise 5.3.2 : Application
+
+
 
     
     
