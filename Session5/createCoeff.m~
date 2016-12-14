@@ -1,0 +1,7 @@
+function a_i = createCoeff(K,a,D)
+    
+    a_i() = 1
+    for i = 1:K
+       a_i 
+    end
+end

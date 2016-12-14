@@ -173,8 +173,7 @@ title('Output signal');
 
 % A: Zooming on the picture, the transient seems to last moreover half a
 % period of the sinewave. However, the amplitude is never reduced to less
-% than 10 percent of the original amplitude, the factor a has to be
-% increased.
+% than 10 percent of the ori
     
     
     
