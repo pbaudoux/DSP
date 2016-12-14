@@ -36,7 +36,7 @@ for i=1:3
 end
     
 %% Exercise 5.2.2 : higher-order echos
-close;
+close all;
 % Again, this is a FIR filter since the output at time n only depends on
 % the present and past input.
 % The function createCoeff returns the coefficients b_i of the FIR equation
@@ -66,7 +66,7 @@ end
 figure;
 a = [0.5 1 1.5];
 K = 20;
-D = 50;
+D = 10;
 
 for i = 1:3
     subplot(3,1,i)
@@ -74,18 +74,36 @@ for i = 1:3
     [h, t] = impz(coeff, 1);
     plot(t,h);
     title(['Impulse response with a = ',num2str(a(i))]);
-end    
-    
+end
+
+% The impulse response is 1+K*D long.
 % A: when a > 1, the impulse at the input is amplified up to the point when
 % the impulse response stops. The filter is still stable because any causal
 % FIR filter is stable.
 % When a = 1, the impulse is maintained up to the end.
 % When a < 1, the impulse is fading.
+
+
+
+%% Exercise 5.2.3 : Full echo
+close all;
+D = 10;
+a = 0.5;
+
+% coefficients of IIR
+b_i = 1;
+a_i = [1 zeros(1,D-1) a];
+
+figure;
+subplot(2,1,1)
+plot(start)
+title('Input signal');
+subplot(2,1,2)
+output = filter(b_i,a_i,start);
+plot(output)
+title('Output of the IIR filter');
     
-    
-    
-    
-    
+
     
     
     
