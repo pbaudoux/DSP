@@ -3,12 +3,10 @@ close all;
 
 %% Exercise 5.2.1 : single echo
 
-
-
 % A: the single echo filter is a FIR filter since the output is a function
 % of the input samples only.
 
-% impulse response of the filter is in the form:
+% The impulse response of the filter is in the form:
 % imp = [1, zeros(1,D-1), a]; 
 % with a=attenuation and D=delay
 
@@ -36,8 +34,8 @@ for i=1:3
 end
     
 %% Exercise 5.2.2 : higher-order echos
-close all;
-% Again, this is a FIR filter since the output at time n only depends on
+
+% A: Again, this is a FIR filter since the output at time k only depends on
 % the present and past input.
 % The function createCoeff returns the coefficients b_i of the FIR equation
 
@@ -86,7 +84,7 @@ end
 
 
 %% Exercise 5.2.3 : Full echo
-close all;
+
 D = 10;
 a = 0.5;
 
@@ -104,38 +102,39 @@ plot(output)
 title('Output of the IIR filter');
     
 %% Exercise 5.3.1 : Notch filter
-close all;
+
 
 w0 = 2*pi/5;
 a = 0.9;
 
 zer = [ exp(sqrt(-1)*w0), -exp(sqrt(-1)*w0) ];  % zeros of TF
-pol = [ a*exp(sqrt(-1)*w0), -a*exp(sqrt(-1)*w0) ];  % zeros of TF
+pol = [ a*exp(sqrt(-1)*w0), -a*exp(sqrt(-1)*w0) ];  % poles of TF
 
 b = poly(zer);
 a = poly(pol);
 
 freqz(b,a);
+title('Notch Filter frequency response, w0 = 2pi/5')
 
 %% Exercise 5.3.2 : Application
-
-close all;
 
 [data, Fs] = audioread('strtnoise.wav');
 cancel_freq = 50;     %frequency to cancel
 w0 = 2*pi*cancel_freq/Fs;
 a = 0.9;
 
-zer = [ exp(sqrt(-1)*w0), -exp(sqrt(-1)*w0) ];  % zeros of TF
-pol = [ a*exp(sqrt(-1)*w0), -a*exp(sqrt(-1)*w0) ];  % zeros of TF
+zer = [ exp(sqrt(-1)*w0), -exp(sqrt(-1)*w0) ];      % zeros of TF
+pol = [ a*exp(sqrt(-1)*w0), -a*exp(sqrt(-1)*w0) ];  % poles of TF
 b = poly(zer);
 a = poly(pol);
 
 filtered = filter(b,a,data);
 
-
+% Frequency response
 figure;
 freqz(b,a);
+title('Notch Filter frequency response, cancels 50Hz')
+
 % Plot the result of the filtering
 figure;
 subplot(2,2,1)

@@ -6,8 +6,9 @@ close all;
 b1 = firls(1,[0 1],[0 pi],'differentiator');
 %fvtool(b1,1,'freq');
 
-% The fvtool allows to see that he amplitude is not linear as  the ideal 
-% differentiator is, but has a sinusoidal shape instead. The phase is linear.
+% A: The fvtool allows to see that he amplitude is not linear as  the ideal 
+% differentiator is, but has a sinusoidal shape instead. The phase is
+% linear as expected with a FIR filter.
 % The result of the curvature of the amplitude of the frequency response is
 % that the filter is a good approximation of a perfect differentiator only
 % in a reduced frequency range.
@@ -43,7 +44,9 @@ axis([0 pi 0 3.5])
 % frequencies of interest can be correctly differentiated and this order should
 % be odd.
 
-% Re-computing of the filters impulse response coefficients while denormalizing
+% Re-computing of the filters impulse response coefficients while
+% denormalizing the amplitude, and apply them to two different sine waves
+
 fs = 10000;
 f1 = 1000;
 j = 1;
@@ -101,12 +104,11 @@ subplot(2,2,3);
 plot(conv(b4,sin4));
 title('Output of 100th order differentiator - 4 kHz sine')
 
-
 subplot(2,2,4);
 plot(conv(b5,sin4));
 title('Output of 101st order differentiator - 4 kHz sine')
 
-% It appears that in the case of the 1 kHz sine, the filters become
+% A: It appears that in the case of the 1 kHz sine, the filters become
 % more accurate when their order increase. The frequency being quite
 % low with respect to the sampling frequency, the error that comes 
 % from the low order or the even orders is not very significant.
@@ -114,4 +116,5 @@ title('Output of 101st order differentiator - 4 kHz sine')
 % In the case of the 4 kHz sine, the second order filter is not
 % accurate at all because 4kHz is close to the higher normalized
 % frequencies.
-% The higher order filters have good accuracy.
+% The higher order filters have good accuracy, as expected when looking at
+% the frequency response of the different filters.
