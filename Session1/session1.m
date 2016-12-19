@@ -1,4 +1,4 @@
-clear all;
+clear;
 close all;
 
 
@@ -8,6 +8,7 @@ i = 1;
 A = 1;
 f_0 = 400;
 f_s = 3200;
+
 for t=0.001:1/f_s:0.006
     s(i) = A*sin(2*pi*f_0*t);
     i = i + 1;
@@ -50,9 +51,7 @@ title('Difference between the two sampled versions');
 xlabel('Sample');
 ylabel('Amplitude');
 
-% A : the sampled versions are identical
-
-close all;
+% A: the sampled versions are identical
 
 % Computing the time scales and plot
 t1 = 0.001:1/f_s:0.006;
@@ -89,7 +88,7 @@ sampling_cos;
 
 sampling_block;
 % A : there is no aliasing for the fundamental because its frequency range
-% goes from 0 to fs/2. The harmonics qre in a range of 0 to N*fs/2 and
+% goes from 0 to fs/2. The harmonics are in a range of 0 to N*fs/2 and
 % will thus be aliased
 
 %% Exercise section 1.2.2
@@ -101,7 +100,6 @@ oversamp(4)
 
 
 %% 1.3.1 : Exercise 1
-close all;
 
 % Constructing triangular signal
 amplitude = 1;
@@ -190,7 +188,6 @@ for i = 1:length(fs)
     end
 end
 
-
-% A : the minimal theoretical sampling frequency is 3 kHz. It can be seen
-% on the plot that the correct shape can be retrieved starting from fs =
-% 3250 Hz.
+% A : the minimal theoretical sampling frequency is 3 kHz  (due to the 
+% product of the cos). It can be seen % on the plot that the correct shape 
+%can be retrieved starting from fs = 3250 Hz.
