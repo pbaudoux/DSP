@@ -1,4 +1,4 @@
-clear all;
+clear;
 close all;
 
 %% Exercise 3.1.2
@@ -25,7 +25,8 @@ title('Original sampling frequency')
 % nearly no energy present in the spectrum (mainly blue).
 
 % The default window used by matlab is the Hamming window, because the rectangular window
-% induces the so-called "leakage" due to its sidelobes.
+% induces the so-called "leakage" due to its sidelobes. The transition is
+% smoother with a Hamming window.
 
 p= 1;
 q= 20;
@@ -36,8 +37,6 @@ spectrogram(y_mono_resamp, N, round(N/2), [], Fs*ratio, 'yaxis');
 title(['Sampling frequency reduced by a factor ', num2str(1/ratio)])
 
 % The zoomed figure confirms the fundamental frequency around 300 Hz
-
-close all;
 
 [noot1, Fs] = audioread('noot1.wav');
 [noot2, Fs] = audioread('noot2.wav');
@@ -65,16 +64,16 @@ end
 % noot1: 440 Hz -> A 
 
 %% Exercise 3.2.1 : computation of random filter impulse response
-close all;
 
 coeff = rand(10,1);
 impulse = [1 0 0 0 0 0 0 0 0 0];
 h = conv(coeff, impulse);
 figure;
 stem(h);
+title('Random filter impulse response')
+xlabel('Sample')
 
 %% Exercise 3.2.2 : design of FIR filters
-close all;
 
 % The original sampling frequency is 44.1 kHz. Downsampled 5 times, it gives
 % fs = 8820 Hz.
@@ -89,12 +88,11 @@ figure;
 % Plot phase and amplitude
 freqz(f,1)
 
-step = ones(1, length(f));
 imp = [1 zeros(1,length(f)-1)];
 
 figure;
 subplot(2,1,1)
-stem(conv(f,step));
+stepz(f,1)
 title('Step response of the filter');
 subplot(2,1,2)
 stem(conv(f,imp));
@@ -105,3 +103,6 @@ down_y = y_conv(1:5:end);
 figure
 stem(down_y)
 title('Downspampled audio signal')
+
+% The signal can be played with soundsc(down_y), and we know recognize a
+% song

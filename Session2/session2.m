@@ -1,7 +1,7 @@
 %%
 % Digital Signal Processing exercise session 2
 
-clear all;
+clear;
 close all;
 
 %%
@@ -13,17 +13,16 @@ nfft = 256;
 figure;
 plot((-1/2:1/nfft:1/2-1/nfft), abs(fftshift(fft(ytestid,nfft))));
 
-% A : frequencies are easily recovered thanks to tthe DFT. Not that if the
+% A : frequencies are easily recovered thanks to the DFT. Not that if the
 % sampling frequency does not respect the nyquist rate, the frequencies 
 % could have been subject to aliasing, and the identified frequencies would
-% thus be alises
+% thus be aliases
 
 %%
 % Exercise 2.1.2
 
 [yni, Fs] = audioread('oef2ni.wav');
 ytestni = yni(1:256);
-nfft = 256;
 figure;
 plot((-1/2:1/nfft:1/2-1/nfft), abs(fftshift(fft(ytestni,nfft))));
 
@@ -46,11 +45,12 @@ title('Non-ideal scenario : difference between original and reconstructed signal
 % period (or a multiple of the period) of the signal.
 % In the non-ideal case, it is not true and thus the repetition of the
 % signal every 256 samples does really correspond to the actual signal.
+% The DFT seen as as a Fourier series considers that the input signal is a 
+% period of a periodic signal, which is not the case in general
 
 % Analysis of the effect of different windows
 % wintool was used to create window_rect, window_hann and window_flat
 
-close all;
 load('hann.mat');
 load('rect.mat');
 load('flat.mat');
@@ -70,18 +70,19 @@ plot((-1/2:1/nfft:1/2-1/nfft), abs(fftshift(fft(y_flat,nfft))));
 title('FFT with flat top window')
 
 % A : the Hann window allows to have peaks that are more precisely
-% definite. The flat top window gives peaks with flat tops, but their
+% defined. The flat top window gives peaks with flat tops, but their
 % amplitude is lower.
+% The rectangular window actually corresponds to what was done first, when
+% exctracting directly samples from the signal.
 
 
 %%
 % Exercise 2.1.3
 
-close all;
 y_padd_id = [ytestid; zeros(3840, 1)];
 y_padd_ni = [ytestni; zeros(3840, 1)];
 
-% Analysis of DFT length
+% Analysis of the impact of DFT length
 
 nfft1 = 256;
 nfft2 = 4096;
@@ -102,27 +103,11 @@ title('Non-ideal case - 4096');
 % A : The length of the DFT allows to have more frequency samples but does
 % not increase the precision. In the non ideal case, the peaks are still
 % thick.
-% The ideal, 4096 points is false
+% The ideal, 4096 points should not look like this, it  should be in the
+% same shape as with 256 points but with more samples.
 
-% Effect of window length
-
-% 
-% windows = [(window(@rectwin,256))'; (window(@rectwin,512))'; (window(@rectwin,1024))';...
-%            (window(@hann, 256))'; (window(@hann, 512))'; (window(@hann, 1024))',...
-%            (window(@flattopwin, 256))'; (window(@flattopwin, 512))'; (window(@flattopwin, 1024))'];
-% titles = []
-%        
-% for i=1:2
-%     figure;
-%     for u=1:length(windows)
-%         subplot(3,3,u)
-%         
-%         plot((-1/2:1/nfft2:1/2-1/nfft2), abs(fftshift(fft(x(i).*windows(u,:),nfft2))));
-%     end  
-% end
-
-close all;
-figure
+% Analysis of the impact of window length
+figure;
 win = window(@rectwin,256);
 y = yid(1:length(win));
 y_win = y.*win;
@@ -270,12 +255,12 @@ title('Non-ideal case - 1024 flat top window');
 
 % A : it appears that the length of the window, regardless of the ideality
 % or of the type of window, allows to increase the precision of the DFT.
+% The amplitude of the peaks is higher and these peaks are less thick.
 
 
 %%
 % Exercise 2.2
 
-close all;
 [x, fs] = audioread('oef2mul.wav');
 
 win = window(@hann,256);
@@ -293,7 +278,8 @@ disp(['The first frequency content is at ', num2str(0.1282*fs), ' Hz']);
 disp(['The second frequency content is at ', num2str(0.1863*fs), ' Hz and is ',...
     num2str(db2mag(40.98)/db2mag(0.03121)), ' times less strong']);
 
-
+% The first frequency content is at 4102.4 Hz
+% The second frequency content is at 5961.6 Hz and is 111.5423 times less strong
 
 
 
