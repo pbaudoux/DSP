@@ -14,6 +14,9 @@ spectrogram(sign, N, round(N/2), [], Fs, 'yaxis');
 figure;
 Ts2 = 1/Fs2;
 N2 = 0.1/Ts2;
-spectrogram(sign, N2, round(N2/2), [], Fs2, 'yaxis');
+spectrogram(myst, N2, round(N2/2), [], Fs2);
+ax = gca;
+ax.YDir = 'reverse';
 
-% The secret message is DSSP !
+% The secret message in sign is DSSP
+% The secret message in mystery_x is Merry Christmas
